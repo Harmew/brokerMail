@@ -18,10 +18,10 @@ type Content struct {
 }
 
 type SendGridRequest struct {
-	Personalizations Personalizations `json:"personalizations"`
-	From             From             `json:"from"`
-	Subject          string           `json:"subject"`
-	Content          []Content        `json:"content"`
+	Personalizations []Personalizations `json:"personalizations"`
+	From             From               `json:"from"`
+	Subject          string             `json:"subject"`
+	Content          []Content          `json:"content"`
 }
 
 type SendGridInternal struct {

@@ -115,9 +115,7 @@ func sendMail(sendGridConfig SendGridConfig, w http.ResponseWriter, r *http.Requ
 func requestSendGrid(ctx context.Context, sendGridConfig SendGridConfig, interfaceBody models.SendGridInternal) (*http.Response, error) {
 	// Create the SendGridRequest struct
 	sendGridRequest := models.SendGridRequest{
-		Personalizations: models.Personalizations{
-			To: []models.To{},
-		},
+		Personalizations: []models.Personalizations{},
 		From: models.From{
 			Email: sendGridConfig.Sender,
 		},
@@ -125,9 +123,14 @@ func requestSendGrid(ctx context.Context, sendGridConfig SendGridConfig, interfa
 		Content: []models.Content{{Type: "text/plain", Value: interfaceBody.Content}},
 	}
 
-	// Add the recipients to the Personalizations struct (need this because of the nested struct)
+	sendGridRequest.Personalizations = append(sendGridRequest.Personalizations, models.Personalizations{
+		To: []models.To{},
+	})
+
 	for _, recipient := range interfaceBody.Recipients {
-		sendGridRequest.Personalizations.To = append(sendGridRequest.Personalizations.To, models.To{Email: recipient})
+		sendGridRequest.Personalizations[0].To = append(sendGridRequest.Personalizations[0].To, models.To{
+			Email: recipient,
+		})
 	}
 
 	// Marshal the SendGridRequest struct into JSON
