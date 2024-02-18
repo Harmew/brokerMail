@@ -27,5 +27,5 @@ type SendGridRequest struct {
 type SendGridInternal struct {
 	Recipients []string `json:"recipients"`
 	Subject    string   `json:"subject"`
-	Content    string   `json:"body"`
+	Content    string   `json:"content"`
 }
